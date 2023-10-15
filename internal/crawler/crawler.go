@@ -1,10 +1,10 @@
 package crawler
 
 import (
-	"Crawler/internal/utils"
-	"Crawler/pkg/apiservice"
-	api "Crawler/pkg/apiservice"
-	"Crawler/pkg/logger"
+	"github.com/z416352/Crawler/internal/utils"
+	"github.com/z416352/Crawler/pkg/apiservice"
+	api "github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 	"fmt"
 	"io"
 	"net/http"

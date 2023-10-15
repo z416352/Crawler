@@ -1,7 +1,7 @@
 package apiservice
 
 import (
-	"Crawler/pkg/logger"
+	"github.com/z416352/Crawler/pkg/logger"
 	"fmt"
 	"net/url"
 	"strconv"

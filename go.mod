@@ -1,4 +1,4 @@
-module Crawler
+module github.com/z416352/Crawler
 
 go 1.20
 

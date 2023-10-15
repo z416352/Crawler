@@ -1,14 +1,14 @@
 package request_services
 
 import (
-	"Crawler/pkg/apiservice"
-	"Crawler/pkg/logger"
+	"github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	"Database/pkg/responses"
+	"github.com/z416352/Database-api/pkg/responses"
 )
 
 const base_prices_url = "http://localhost:8080/prices"

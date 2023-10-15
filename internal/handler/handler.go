@@ -1,8 +1,8 @@
 package handler
 
 import (
-	api "Crawler/pkg/apiservice"
-	"Crawler/pkg/logger"
+	api "github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 	"time"
 
 	"github.com/robfig/cron/v3"

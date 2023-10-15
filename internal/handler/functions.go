@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"Crawler/internal/crawler"
-	"Crawler/internal/request_services"
-	"Crawler/internal/utils"
-	api "Crawler/pkg/apiservice"
-	"Crawler/pkg/logger"
+	"github.com/z416352/Crawler/internal/crawler"
+	"github.com/z416352/Crawler/internal/request_services"
+	"github.com/z416352/Crawler/internal/utils"
+	api "github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 	"time"
 )
 

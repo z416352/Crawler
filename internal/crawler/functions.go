@@ -1,8 +1,8 @@
 package crawler
 
 import (
-	req_svc "Crawler/internal/request_services"
-	api "Crawler/pkg/apiservice"
+	req_svc "github.com/z416352/Crawler/internal/request_services"
+	api "github.com/z416352/Crawler/pkg/apiservice"
 	"slices"
 	"time"
 )

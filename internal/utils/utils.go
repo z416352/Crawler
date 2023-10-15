@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"Crawler/pkg/logger"
+	"github.com/z416352/Crawler/pkg/logger"
 	"bytes"
 	"encoding/json"
 	"io"
