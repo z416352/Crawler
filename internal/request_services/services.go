@@ -1,18 +1,32 @@
 package request_services
 
 import (
-	"github.com/z416352/Crawler/pkg/apiservice"
-	"github.com/z416352/Crawler/pkg/logger"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
+
+	"github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 
 	"github.com/z416352/Database-api/pkg/responses"
 )
 
-const base_prices_url = "http://localhost:8080/prices"
-const base_mongodb_url = "http://localhost:8080/mongodb"
+// const base_mongodb_url = "http://localhost:8080/mongodb"
+// const base_prices_url = "http://localhost:8080/prices"
+
+var base_prices_url string
+var base_mongodb_url string
+
+func init() {
+	db_API_ServiceName := os.Getenv("db_API_ServiceName")
+	db_API_ServicePort := os.Getenv("db_API_ServicePort")
+	db_API_Namespace := os.Getenv("db_API_Namespace")
+
+	base_prices_url = fmt.Sprintf("http://%s.%s.svc.cluster.local:%s/prices", db_API_ServiceName, db_API_Namespace, db_API_ServicePort)
+	base_mongodb_url = fmt.Sprintf("http://%s.%s.svc.cluster.local:%s/mongodb", db_API_ServiceName, db_API_Namespace, db_API_ServicePort)
+}
 
 // prices_url
 func Get_GetNewestData(symbol, timeframe string) *apiservice.BinanceAPI_Kline {

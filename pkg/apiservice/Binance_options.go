@@ -142,7 +142,7 @@ func (k *BinanceAPI_opt) StartCrawler() ([]*BinanceAPI_Kline, error) {
 	urlStr := k.GetURL(BinanceAPI_BASE_URL, BinanceAPI_PATH_CANDLESTICK_DATA)
 	// endTime = utils.ShiftTimeframe(timeframe_mins, endTime, 1)
 
-	logger.CrawlerLog.Tracef("Binance API: %s", urlStr)
+	logger.CrawlerLog.Debugf("Binance API: %s", urlStr)
 
 	/* Get K lines from Binance */
 	logger.CrawlerLog.Tracef("--------------------- Get K lines from Binance ---------------------")

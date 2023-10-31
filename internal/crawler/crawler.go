@@ -129,8 +129,8 @@ func (c *Crawler) Binance_Crawler(timeRange ...int64) ([]*api.BinanceAPI_Kline, 
 			logger.CrawlerLog.Errorf("Err: %v", err)
 		}
 
-		logger.CrawlerLog.Debugf("From '%s' to '%s'. Get '%d' klines.", kline[0].OpenDateTime, kline[len(kline)-1].OpenDateTime, len(kline))
-		logger.CrawlerLog.Debugf("-------------")
+		// logger.CrawlerLog.Debugf("From '%s' to '%s'. Get '%d' klines.", kline[0].OpenDateTime, kline[len(kline)-1].OpenDateTime, len(kline))
+		// logger.CrawlerLog.Debugf("-------------")
 
 		klines = append(kline, klines...)
 	}
