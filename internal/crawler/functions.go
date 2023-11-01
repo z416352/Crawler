@@ -1,15 +1,18 @@
 package crawler
 
 import (
-	req_svc "github.com/z416352/Crawler/internal/request_services"
-	api "github.com/z416352/Crawler/pkg/apiservice"
 	"slices"
 	"time"
+
+	req_svc "github.com/z416352/Crawler/internal/request_services"
+	"github.com/z416352/Crawler/internal/utils"
+	api "github.com/z416352/Crawler/pkg/apiservice"
+	"github.com/z416352/Crawler/pkg/logger"
 )
 
 var target *api.BinanceCrawlTarget
 
-func init(){
+func init() {
 	target = new(api.BinanceCrawlTarget).GetCrawlTarget()
 }
 
@@ -40,4 +43,23 @@ func ListNonExistTimeframe() map[string][]string {
 	}
 
 	return nonExistTimeframeMap
+}
+
+func Test_crawl() {
+	for _, symbol := range target.Symbol_list {
+		for _, timeframe := range target.TimeFrame_list {
+			// Crawler start
+			c := Crawler{
+				Timeframe: timeframe,
+				Symbol:    symbol,
+			}
+			newestDataTime := utils.NewestKlineTime(api.Binance_TimeframeCases[timeframe])
+			_, err := c.Binance_Crawler(newestDataTime)
+			if err != nil {
+				logger.CrawlerLog.Panic(err)
+			}
+
+			time.Sleep(time.Second)
+		}
+	}
 }
