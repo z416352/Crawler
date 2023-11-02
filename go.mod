@@ -7,7 +7,7 @@ require (
 	github.com/bitly/go-simplejson v0.5.1
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/sirupsen/logrus v1.9.3
-	github.com/z416352/Database-api v0.0.0-20231015123022-3adb523e1900
+	github.com/z416352/Database-api v1.0.0
 )
 
 require (

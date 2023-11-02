@@ -17,6 +17,8 @@ github.com/stretchr/testify v1.8.3 h1:RP3t2pwF7cMEbC1dqtB6poj3niw/9gnV4Cjg5oW5gt
 github.com/stretchr/testify v1.8.3/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/z416352/Database-api v0.0.0-20231015123022-3adb523e1900 h1:Dh2vBYrRrpMTHFAn7f1M6uvf+Aali8cm2lTpLqGFiIM=
 github.com/z416352/Database-api v0.0.0-20231015123022-3adb523e1900/go.mod h1:7zCKqkiGRUQ5sjacQ0mVmO/1WrJ98TVpEtAY+1rICtE=
+github.com/z416352/Database-api v1.0.0 h1:hNonV7tvYaYGqCtsBJKx1n4Zr43qJBJpbSf3Asd6tHE=
+github.com/z416352/Database-api v1.0.0/go.mod h1:71oHTKk3BQ94Jc6Y6jHsrjex3V6VJO6hGNqbHQkN7qM=
 golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 golang.org/x/sys v0.12.0 h1:CM0HF96J0hcLAwsHPJZjfdNzs0gftsLfgKt57wWHJ0o=
 golang.org/x/sys v0.12.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
