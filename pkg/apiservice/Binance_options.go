@@ -1,13 +1,14 @@
 package apiservice
 
 import (
-	"github.com/z416352/Crawler/pkg/logger"
 	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/z416352/Crawler/pkg/logger"
 
 	"github.com/bitly/go-simplejson"
 )
@@ -19,6 +20,8 @@ const (
 	BinanceAPI_PATH_PRICE            = "api/v3/ticker/price"
 	BinanceAPI_Limit_Results         = 500 // MAX = 500
 )
+
+const format = "2006-01-02 15:04:05"
 
 var Binance_TimeframeCases = map[string]int{
 	"1m":  1,
@@ -112,8 +115,14 @@ func (k *BinanceAPI_opt) Response2json(body []byte) (res []*BinanceAPI_Kline, er
 			logger.CrawlerLog.Errorf("invalid kline response")
 			return []*BinanceAPI_Kline{}, err
 		}
+		utcTime := time.Unix(0, item.GetIndex(0).MustInt64()*int64(time.Millisecond))
+		// Convert time to UTC+8 time zone
+		loc, _ := time.LoadLocation("Asia/Taipei")
+		localTime := utcTime.In(loc)
+
 		res[i] = &BinanceAPI_Kline{
-			OpenDateTime:             time.UnixMilli(item.GetIndex(0).MustInt64()).Format("2006-01-02 15:04:05"),
+			// OpenDateTime:             time.UnixMilli(item.GetIndex(0).MustInt64()).Format("2006-01-02 15:04:05"),
+			OpenDateTime:             localTime.Format(format),
 			OpenTime:                 item.GetIndex(0).MustInt64(),
 			Open:                     item.GetIndex(1).MustString(),
 			High:                     item.GetIndex(2).MustString(),

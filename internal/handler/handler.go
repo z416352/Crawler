@@ -26,13 +26,12 @@ func init() {
 func Crawler_handler() {
 	c := cron.New()
 	initialDB_Data()
-
 	updataToNewest()
 
 	// "*/15 * * * *" -> At every 15th minute.
 	_, err := c.AddFunc("*/15 * * * *", func() {
 		time.Sleep(time.Second * 1)
-		crawl_All(target)
+		crawl(target)
 	})
 	if err != nil {
 		logger.CrawlerLog.Panicf("Can't add cron rules.")

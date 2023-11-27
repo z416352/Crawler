@@ -1,13 +1,15 @@
 package utils
 
 import (
-	"github.com/z416352/Crawler/pkg/logger"
 	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/z416352/Crawler/pkg/logger"
 )
+
 const format = "2006-01-02 15:04:05"
 
 func Send_message_to_bot(msg string) bool {
@@ -32,7 +34,7 @@ func Send_message_to_bot(msg string) bool {
 	return true
 }
 
-// Find the latest candlestick time.
+// Find the latest candlestick time. (kline not alive)
 func NewestKlineTime(mins int) int64 {
 	var hours, days int
 
@@ -69,6 +71,12 @@ func NewestKlineTime(mins int) int64 {
 
 	currTime = currTime.Add(-time.Second * time.Duration(currTime.Second()))
 
+	currTime = currTime.Add(-time.Minute * time.Duration(mins))
+	currTime = currTime.Add(-time.Hour * time.Duration(hours))
+	if days != 0 {
+		currTime = currTime.Add(-time.Hour * time.Duration(24))
+	}
+
 	unix := time.Date(
 		currTime.Year(),
 		currTime.Month(),
@@ -80,11 +88,10 @@ func NewestKlineTime(mins int) int64 {
 		time.UTC,
 	).UnixMilli()
 
-	logger.UtilsLog.Debugf("The newest K lines time: %v", time.UnixMilli(unix).Format(format))
+	logger.UtilsLog.Debugf("The newest K lines time: %v", ConvertToUTC8(unix))
 
 	return unix
 }
-
 
 // Shift 'n' intervals timeframe
 func ShiftTimeframe(mins int, start_unix int64, n int) int64 {
@@ -99,4 +106,14 @@ func ShiftTimeframe(mins int, start_unix int64, n int) int64 {
 	logger.UtilsLog.Tracef("After Shift : %v", date.Format(format))
 
 	return date.UnixMilli()
+}
+
+func ConvertToUTC8(t int64) string {
+	utcTime := time.Unix(0, t*int64(time.Millisecond))
+
+	// Convert time to UTC+8 time zone
+	loc, _ := time.LoadLocation("Asia/Taipei")
+	localTime := utcTime.In(loc)
+
+	return localTime.Format(format)
 }

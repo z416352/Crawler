@@ -26,11 +26,16 @@ func init() {
 
 	base_prices_url = fmt.Sprintf("http://%s.%s.svc.cluster.local:%s/prices", db_API_ServiceName, db_API_Namespace, db_API_ServicePort)
 	base_mongodb_url = fmt.Sprintf("http://%s.%s.svc.cluster.local:%s/mongodb", db_API_ServiceName, db_API_Namespace, db_API_ServicePort)
+
+	if os.Getenv("TEST") == "1" {
+		base_mongodb_url = "http://localhost:8080/mongodb"
+		base_prices_url = "http://localhost:8080/prices"
+	}
 }
 
 // prices_url
-func Get_GetNewestData(symbol, timeframe string) *apiservice.BinanceAPI_Kline {
-	url := fmt.Sprintf("%s/%s/%s", base_prices_url, symbol, timeframe)
+func Get_GetNewestData(symbol, timeframe, num string) []*apiservice.BinanceAPI_Kline {
+	url := fmt.Sprintf("%s/%s/%s/%s", base_prices_url, symbol, timeframe, num)
 	logger.CrawlerLog.Debugf("Get method url: %s", url)
 
 	response, err := http.Get(url)
@@ -47,15 +52,12 @@ func Get_GetNewestData(symbol, timeframe string) *apiservice.BinanceAPI_Kline {
 	res := responses.UserResponse{}
 	json.Unmarshal(body.Bytes(), &res)
 
-	kline := apiservice.BinanceAPI_Kline{}
+	klines := []*apiservice.BinanceAPI_Kline{}
 	// Check the response status code
 	if response.StatusCode != http.StatusOK {
 		logger.CrawlerLog.Errorf("API returned an error: {'status': %d, 'message': %s}", res.Status, res.Message)
 	} else {
-		// Print the response body
-		// logger.CrawlerLog.Infof("API response: {'status': %d, 'message': %s}", res.Status, res.Message)
-
-		err = convertInterfaceToStruct(res.Data["kline"], &kline)
+		err = convertInterfaceToStruct(res.Data["klines"], &klines)
 		if err != nil {
 			logger.CrawlerLog.Errorf("err: %v", err)
 		}
@@ -63,7 +65,7 @@ func Get_GetNewestData(symbol, timeframe string) *apiservice.BinanceAPI_Kline {
 
 	// logger.CrawlerLog.Infof("kline: %v", kline)
 
-	return &kline
+	return klines
 }
 
 // prices_url

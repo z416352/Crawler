@@ -1,23 +1,18 @@
 package handler
 
 import (
+	"time"
+
 	"github.com/z416352/Crawler/internal/crawler"
 	"github.com/z416352/Crawler/internal/request_services"
 	"github.com/z416352/Crawler/internal/utils"
 	api "github.com/z416352/Crawler/pkg/apiservice"
 	"github.com/z416352/Crawler/pkg/logger"
-	"time"
-)
-
-const (
-	initialDataCount_1d  = 365
-	initialDataCount_4h  = 1000
-	initialDataCount_1h  = 3000
-	initialDataCount_15m = 4000
+	"gopkg.in/ini.v1"
 )
 
 // Crawl all data and send the data to the insert API using the POST method.
-func crawl_All(target *api.BinanceCrawlTarget) {
+func crawl(target *api.BinanceCrawlTarget) {
 	now := time.Now()
 
 	for _, symbol := range target.Symbol_list {
@@ -75,10 +70,10 @@ func updataToNewest() {
 
 	for _, symbol := range target.Symbol_list {
 		for _, timeframe := range target.TimeFrame_list {
-			kline := request_services.Get_GetNewestData(symbol, timeframe)
-			logger.CrawlerLog.Debugf("[%s][%s]: The lastest date of data: '%v'", symbol, timeframe, kline.OpenDateTime)
+			kline := request_services.Get_GetNewestData(symbol, timeframe, "1")
+			logger.CrawlerLog.Debugf("[%s][%s]: The lastest date of data: '%v'", symbol, timeframe, kline[0].OpenDateTime)
 
-			startTime := kline.OpenTime
+			startTime := kline[0].OpenTime
 			endTime := utils.NewestKlineTime(api.Binance_TimeframeCases[timeframe])
 			if startTime == endTime {
 				continue
@@ -113,6 +108,12 @@ func updataToNewest() {
 // Initialize database data when the database doesn't exist.
 // It will crawl a certain amount of data based on different timeframes and insert it into the database.
 func initialDB_Data() {
+	cfg, err := ini.Load("../config.ini")
+	if err != nil {
+		logger.CrawlerLog.Panicf("can not load INI file: %v", err)
+	}
+	dataNums := cfg.Section("InitialDataNums")
+
 	logger.CrawlerLog.Infof("====================== initial DB Data start ======================")
 	logger.CrawlerLog.Infof("These DBs and timeframes need to initial data.")
 
@@ -127,15 +128,15 @@ func initialDB_Data() {
 			var dataCount int
 			switch tf {
 			case "1d":
-				dataCount = initialDataCount_1d
+				dataCount = dataNums.Key("1d").MustInt()
 			case "4h":
-				dataCount = initialDataCount_4h
+				dataCount = dataNums.Key("4h").MustInt()
 			case "1h":
-				dataCount = initialDataCount_1h
+				dataCount = dataNums.Key("1h").MustInt()
 			case "15m":
-				dataCount = initialDataCount_15m
+				dataCount = dataNums.Key("15m").MustInt()
 			default:
-				dataCount = 500
+				dataCount = dataNums.Key("15m").MustInt()
 			}
 
 			tf_mins := api.Binance_TimeframeCases[tf]
