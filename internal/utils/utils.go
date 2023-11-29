@@ -112,8 +112,9 @@ func ConvertToUTC8(t int64) string {
 	utcTime := time.Unix(0, t*int64(time.Millisecond))
 
 	// Convert time to UTC+8 time zone
-	loc, _ := time.LoadLocation("Asia/Taipei")
-	localTime := utcTime.In(loc)
+	// loc, _ := time.LoadLocation("Asia/Taipei")
+	// localTime := utcTime.In(loc)
+	localTime := utcTime.In(time.FixedZone("UTC+8", 8*60*60))
 
 	return localTime.Format(format)
 }

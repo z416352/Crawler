@@ -117,8 +117,10 @@ func (k *BinanceAPI_opt) Response2json(body []byte) (res []*BinanceAPI_Kline, er
 		}
 		utcTime := time.Unix(0, item.GetIndex(0).MustInt64()*int64(time.Millisecond))
 		// Convert time to UTC+8 time zone
-		loc, _ := time.LoadLocation("Asia/Taipei")
-		localTime := utcTime.In(loc)
+		// loc, _ := time.LoadLocation("Asia/Taipei")
+		// localTime := utcTime.In(loc)
+		localTime := utcTime.In(time.FixedZone("UTC+8", 8*60*60))
+
 
 		res[i] = &BinanceAPI_Kline{
 			// OpenDateTime:             time.UnixMilli(item.GetIndex(0).MustInt64()).Format("2006-01-02 15:04:05"),
